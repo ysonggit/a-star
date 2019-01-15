@@ -70,6 +70,8 @@ void AStar::Generator::clearCollisions()
 
 AStar::CoordinateList AStar::Generator::findPath(Vec2i source_, Vec2i target_)
 {
+    source = source_;
+    target = target_;
     Node *current = nullptr;
     NodeSet openSet, closedSet;
     openSet.insert(new Node(source_));
@@ -150,6 +152,42 @@ bool AStar::Generator::detectCollision(Vec2i coordinates_)
         return true;
     }
     return false;
+}
+
+void AStar::Generator::addCollisionList(const std::vector<Vec2i>& collisions){
+  for(Vec2i coord : collisions){
+    addCollision(coord);
+  }
+}
+
+void AStar::Generator::drawWorld(){
+  for(int j=0; j<worldSize.y; j++){
+    std::cout<<"____";
+  }
+  std::cout<<"_"<<std::endl;
+  for(int i=0; i<worldSize.x; i++){
+    for(int j=0; j<worldSize.y; j++){
+      if (detectCollision({i,j})){
+        std::cout<<"| o ";
+      }else{
+        if(source.x == i && source.y ==j){
+          std::cout<<"| * ";
+        }
+        else if(target.x == i && target.y ==j){
+          std::cout<<"|(*)";
+        }
+        else{
+          std::cout<<"|   ";
+        }
+      }
+    }
+    std::cout<<"|"<<std::endl;
+  }
+  for(int j=0; j<worldSize.y; j++){
+    std::cout<<"----";
+  }
+  std::cout<<"-"<<std::endl;
+  std::cout<<std::endl;
 }
 
 AStar::Vec2i AStar::Heuristic::getDelta(Vec2i source_, Vec2i target_)

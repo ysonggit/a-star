@@ -5,7 +5,8 @@
 */
 #ifndef __ASTAR_HPP_8F637DB91972F6C878D41D63F7E7214F__
 #define __ASTAR_HPP_8F637DB91972F6C878D41D63F7E7214F__
-
+#include <math.h>
+#include <iostream>
 #include <vector>
 #include <functional>
 #include <set>
@@ -50,12 +51,15 @@ namespace AStar
         void addCollision(Vec2i coordinates_);
         void removeCollision(Vec2i coordinates_);
         void clearCollisions();
-
+        void addCollisionList(const std::vector<Vec2i>& collisions);
+        void drawWorld();
+      
     private:
         HeuristicFunction heuristic;
         CoordinateList direction, walls;
         Vec2i worldSize;
         uint directions;
+        Vec2i source, target;
     };
 
     class Heuristic
